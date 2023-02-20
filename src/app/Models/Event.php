@@ -16,4 +16,9 @@ class Event extends Model
     {
         return $this->belongsTo(Scheduler::class);
     }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

@@ -19,8 +19,9 @@ class EventController extends Controller
 
     public function json(Request $request)
     {
-        $references = explode(',', trim($request->references, "[]"));
-        $events = SchedulersHelper::getEvents($references??[], $request->filter);
+        $references = $request->references;
+        $filter = substr($request->filter, 2, strlen($request->filter)-4);
+        $events = SchedulersHelper::getEvents($references??[], $filter);
 
         return EventResource::collection($events);
     }

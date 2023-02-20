@@ -73,7 +73,7 @@
         selectedItems: menuItems,
         itemTitleTemplate(data)
         {
-            return '<h1 style="font-size: 20px; margin:0;">' + data.label + '</H1>';
+            return '<h1 style="font-weight: bold; font-size: 15px; margin:0;">' + data.label + '</H1>';
         },
         itemTemplate(data)
         {
@@ -88,10 +88,27 @@
                     value: true,
                     hint: item.description,
                     text: item.label,
-                    onContentReady(component)
+                    onContentReady(options)
                     {
-                        component.element.find('.dx-checkbox-icon').css('background-color', item.background_color);
-                        component.element.find('.dx-checkbox-icon').css('color', item.text_color);
+                        options.element.find('.dx-checkbox-icon').css('background-color', item.background_color);
+                        options.element.find('.dx-checkbox-icon').css('color', item.text_color);
+                    },
+                    onValueChanged(options)
+                    {
+                        const reference = item.reference;
+
+                        if(options.value)
+                        {
+                            window.everysoft['dxScheduler_references'].push(reference);
+                        }
+                        else
+                        {
+                            window.everysoft['dxScheduler_references'] = jQuery.grep(window.everysoft['dxScheduler_references'], function(value)
+                            {
+                                return value != reference;
+                            });
+                        }
+                        window.everysoft['dxScheduler'].option('dataSource',createSchedulerStore());
                     }
                 });
 

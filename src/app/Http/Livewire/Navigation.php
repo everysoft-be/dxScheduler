@@ -16,7 +16,7 @@ class Navigation extends Component
 {
     public array $allows = [];
     public array $objectsCreate = [];
-    public string $routeName = "everysoft.dxscheduler.schedulers.json";
+    public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
 
     public function render() : Application|Factory|View
     {
@@ -24,27 +24,34 @@ class Navigation extends Component
             ->with('menuItems', $this->getMenuItems());
     }
 
-    private function getMenuItems() : array
+    private function getMenuItems()
     {
         $array = [];
+        $items = $this->getSchedulers()->groupBy('category');
+        foreach ($items as $items1)
+        {
+            $subItems = [];
+            foreach ($items1 as $item)
+            {
+                $subItems[] = $item;
+            }
+            $array[] =
+                [
+                    'label' => $item->category ?? 'My calendars',
+                    'items' => $subItems,
+                ];
+        }
         $array [] =
             [
-                'label' => 'My calendars',
-                'items' => $this->getSchedulers(),
+                'label' => "Categories",
+                'items' => $this->getCategories()
             ];
-
-        $array [] =
-            [
-                'label' => 'Categories',
-                'items' => $this->getCategories(),
-            ];
-
         return $array;
     }
 
     private function getSchedulers()
     {
-        $route = Route::getRoutes()->getByName($this->routeName);
+        $route = Route::getRoutes()->getByName($this->schedulersRouteName);
         if(!$route) return [];
 
         $controller = $route->getController();
@@ -73,6 +80,7 @@ class Navigation extends Component
 
     public function can(string $right)
     {
+        return true;
         return in_array($right, $this->allows);
     }
 }

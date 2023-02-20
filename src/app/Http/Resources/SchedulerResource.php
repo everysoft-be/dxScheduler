@@ -12,6 +12,7 @@ class SchedulerResource extends JsonResource
             'id' => $this->id,
             'reference' => $this->reference,
             'label' => $this->label,
+            'category' => $this->category??'My calendars',
             'description' => $this->description,
             'text_color' => $this->text_color,
             'background_color' => $this->background_color,
