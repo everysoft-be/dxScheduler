@@ -13,6 +13,8 @@ class Calendar extends Component
     public array $references = [];
     public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
     public string $eventsRouteName = "everysoft.dxscheduler.events.json";
+    public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
+    public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
 
     public function render()
     {

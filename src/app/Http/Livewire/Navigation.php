@@ -17,6 +17,9 @@ class Navigation extends Component
     public array $allows = [];
     public array $objectsCreate = [];
     public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
+    public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
+    public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
+    public array $createButton = [];
 
     public function render() : Application|Factory|View
     {

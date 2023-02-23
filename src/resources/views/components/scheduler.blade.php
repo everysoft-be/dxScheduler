@@ -28,6 +28,8 @@
                 :key="'everysoft-dxScheduler-navigation-'.$ref"
                 :allows="$allows"
                 :schedulersRouteName="$schedulersRouteName"
+                :eventsUpdateRouteName="$eventsUpdateRouteName"
+                :createButton="$createButton"
         ></livewire:everysoft-dxScheduler-navigation>
     </div>
     <div class="dx-item dx-box-item row4">
@@ -37,6 +39,8 @@
                 :allows="$allows"
                 :schedulersRouteName="$schedulersRouteName"
                 :eventsRouteName="$eventsRouteName"
+                :eventsUpdateRouteName="$eventsUpdateRouteName"
+                :eventsDeleteRouteName="$eventsDeleteRouteName"
         ></livewire:everysoft-dxScheduler-calendar>
     </div>
 </div>

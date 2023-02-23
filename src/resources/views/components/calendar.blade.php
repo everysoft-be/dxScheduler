@@ -1,17 +1,14 @@
 <style>
-    .dx-scheduler-appointment-content
-    {
+    .dx-scheduler-appointment-content {
         padding: 0px;
     }
 
-    .dxscheduler-appointment-template
-    {
+    .dxscheduler-appointment-template {
         height: 100%;
         padding-left: 3px;
     }
 </style>
 <div id="everysoft_dxScheduler_calendar"></div>
-
 <script>
     if (!window.everysoft)
     {
@@ -24,6 +21,9 @@
         return DevExpress.data.AspNet.createStore({
             key: 'id',
             loadUrl: '{!! route($eventsRouteName) !!}',
+            insertUrl: '{!! route($eventsUpdateRouteName) !!}',
+            updateUrl: '{!! route($eventsUpdateRouteName) !!}',
+            deleteUrl: '{!! route($eventsUpdateRouteName) !!}',
             loadParams:
                 {
                     references: window.everysoft['dxScheduler_references']
@@ -32,7 +32,7 @@
     }
 
     schedulers = [
-        @foreach(\everysoft\dxScheduler\app\Models\Scheduler::whereIn('reference', $references)->get() as $scheduler)
+            @foreach(\everysoft\dxScheduler\app\Models\Scheduler::whereIn('reference', $references)->get() as $scheduler)
         {
             id: {!! $scheduler->id !!},
             text: "{!! $scheduler->label !!}",
@@ -42,7 +42,7 @@
     ];
 
     categories = [
-        @foreach(\everysoft\dxScheduler\app\Models\Category::whereNull('user_id')->get() as $category)
+            @foreach(\everysoft\dxScheduler\app\Models\Category::whereNull('user_id')->get() as $category)
         {
             id: {!! $category->id !!},
             text: "{!! $category->label !!}",
@@ -80,10 +80,17 @@
                     label: 'category',
                 },
                 {
-                    fieldExpr: 'scheduler_id',
+                    fieldExpr: 'scheduler_ids',
                     dataSource: schedulers,
                     label: 'scheduler',
+                    allowMultiple: true,
                 },
+                {
+                    fieldExpr: 'scheduler_id',
+                    dataSource: schedulers,
+                    label: 'Main scheduler',
+                    useColorAsDefault: true,
+                }
             ],
             editing:
                 {
@@ -109,12 +116,21 @@
                     .append("<br>")
                     .append("<small>" + startAt.getHours() + ":" + startAt.getMinutes())
                     .append(" - ")
-                    .append(+ endAt.getHours() + ":" + endAt.getMinutes() + "</small")
+                    .append(+endAt.getHours() + ":" + endAt.getMinutes() + "</small")
                     .append("<br>")
                     .append(model.appointmentData.description);
 
 
                 return div;
+            },
+            onAppointmentFormOpening(options)
+            {
+                if(options.appointmentData.form)
+                {
+                    options.cancel = true;
+                    const method = _getMethod(options.appointmentData.form);
+                    method(options.appointmentData);
+                }
             },
         }).dxScheduler('instance');
 

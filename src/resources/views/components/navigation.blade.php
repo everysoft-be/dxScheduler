@@ -51,6 +51,7 @@
 <script>
     $("#everysoft_dxScheduler_button_tools").dxButton({
         icon: "fa fa-cog",
+        hint: '@lang('Settings') !!! @lang('Coming soon') !!!'
     });
 
     $("#everysoft_dxScheduler_button_create").dxDropDownButton({
@@ -61,7 +62,15 @@
             {
                 width: 230,
             },
-        items: ['Evènements', 'Evaluation', 'EDT']
+        items: {!! json_encode($createButton) !!},
+        displayExpr: 'label',
+        keyExpr: 'label',
+        onItemClick(event)
+        {
+            console.log(event);
+            const method = _getMethod(event.itemData.form);
+            method(null);
+        }
     });
 
     const menuItems = {!! json_encode($menuItems) !!};

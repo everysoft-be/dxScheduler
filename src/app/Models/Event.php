@@ -21,4 +21,20 @@ class Event extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'parent_id');
+    }
+
+    public function getSchedulerIdsAttribute()
+    {
+        $events = $this->events()->select('scheduler_id')->get();
+        $ids = [];
+        foreach($events as $event)
+        {
+            $ids[] = $event->scheduler_id;
+        }
+        return $ids;
+    }
 }

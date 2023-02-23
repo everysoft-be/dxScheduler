@@ -39,7 +39,14 @@ abstract class SchedulersHelper
         foreach ($schedulers as $scheduler)
         {
             $query = self::decodeFilter($scheduler->events(), $filter);
-            $events = $events->merge($query->get());
+            $sch_events = $query
+                ->where(function($query) use($schedulers)
+                {
+                    $query->WhereNotIn('parent_id', $schedulers->pluck('id'));
+                    $query->orWhereNull('parent_id');
+                })
+                ->get();
+            $events = $events->merge($sch_events);
         }
 
         return $events;
