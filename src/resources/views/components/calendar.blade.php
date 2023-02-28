@@ -15,6 +15,7 @@
         window.everysoft = [];
     }
     window.everysoft['dxScheduler_references'] = {!! json_encode($references) !!};
+    window.everysoft['dxScheduler_categories'] = {!! json_encode($categories) !!};
 
     function createSchedulerStore()
     {
@@ -26,7 +27,8 @@
             deleteUrl: '{!! route($eventsUpdateRouteName) !!}',
             loadParams:
                 {
-                    references: window.everysoft['dxScheduler_references']
+                    references: window.everysoft['dxScheduler_references'],
+                    categories: window.everysoft['dxScheduler_categories'],
                 }
         });
     }

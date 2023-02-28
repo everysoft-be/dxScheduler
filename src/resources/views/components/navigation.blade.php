@@ -105,6 +105,20 @@
                     onValueChanged(options)
                     {
                         const reference = item.reference;
+                        if(!reference)
+                        {
+                            if(options.value)
+                            {
+                                window.everysoft['dxScheduler_categories'].push(item.id);
+                            }
+                            else
+                            {
+                                window.everysoft['dxScheduler_categories'] = jQuery.grep(window.everysoft['dxScheduler_categories'], function(value)
+                                {
+                                    return value != item.id;
+                                });
+                            }
+                        }
 
                         if(options.value)
                         {

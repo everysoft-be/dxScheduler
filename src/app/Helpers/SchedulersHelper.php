@@ -30,7 +30,7 @@ abstract class SchedulersHelper
         return $schedulers->get();
     }
 
-    public static function getEvents(array $references = [], $filter = null)
+    public static function getEvents(array $references = [], $filter = null, $categories = null)
     {
         if(count($references) === 0) return [];
         $events = collect();
@@ -39,13 +39,16 @@ abstract class SchedulersHelper
         foreach ($schedulers as $scheduler)
         {
             $query = self::decodeFilter($scheduler->events(), $filter);
-            $sch_events = $query
-                ->where(function($query) use($schedulers)
+            $query->where(function($query) use($schedulers)
                 {
                     $query->WhereNotIn('parent_id', $schedulers->pluck('id'));
                     $query->orWhereNull('parent_id');
-                })
-                ->get();
+                });
+            if($categories !== null)
+            {
+                $query->whereIn('category_id', $categories);
+            }
+            $sch_events = $query->get();
             $events = $events->merge($sch_events);
         }
 
