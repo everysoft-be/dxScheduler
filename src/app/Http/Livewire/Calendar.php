@@ -3,8 +3,11 @@
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
 use everysoft\dxScheduler\app\Models\Category;
+use Illuminate\Console\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Factory;
+use Illuminate\View\View;
 use Livewire\Component;
 
 class Calendar extends Component
@@ -17,24 +20,26 @@ class Calendar extends Component
     public string $eventsRouteName = "everysoft.dxscheduler.events.json";
     public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
     public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
+    public array $cellMenuItem = [];
+    public array $eventMenuItem = [];
 
-    public function render()
+    public function render() : Application | Factory | View
     {
-        $this->getReferences();
-        $this->getCategories();
+        $this->initReferences();
+        $this->initCategories();
 
         return view('dxScheduler::components.calendar');
     }
 
-    public function can(string $right)
+    public function can(string $right) : bool
     {
         return in_array($right, $this->allows);
     }
 
-    private function getReferences()
+    private function initReferences()
     {
         $route = Route::getRoutes()->getByName($this->schedulersRouteName);
-        if(!$route) return [];
+        if(!$route) return;
 
         $controller = $route->getController();
         $method = $route->getActionMethod();
@@ -46,7 +51,7 @@ class Calendar extends Component
         }
     }
 
-    private function getCategories()
+    private function initCategories()
     {
         foreach(Category::whereNull('user_id')->get() as $category)
         {

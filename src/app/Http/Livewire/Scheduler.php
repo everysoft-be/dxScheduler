@@ -15,6 +15,8 @@ class Scheduler extends Component
     public array $allows = [];
     public string $currentView = "month";
     public array $createButton = [];
+    public array $cellMenuItem = [];
+    public array $eventMenuItem = [];
 
     public function render()
     {

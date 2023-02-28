@@ -67,9 +67,15 @@
         keyExpr: 'label',
         onItemClick(event)
         {
-            console.log(event);
-            const method = _getMethod(event.itemData.form);
-            method(null);
+            if(event.itemData.form != null)
+            {
+                const method = _getMethod(event.itemData.form);
+                method(null);
+            }
+            else
+            {
+                window.everysoft['dxScheduler'].showAppointmentPopup();
+            }
         }
     });
 

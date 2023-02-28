@@ -41,6 +41,8 @@
                 :eventsRouteName="$eventsRouteName"
                 :eventsUpdateRouteName="$eventsUpdateRouteName"
                 :eventsDeleteRouteName="$eventsDeleteRouteName"
+                :eventMenuItem="$eventMenuItem"
+                :cellMenuItem="$cellMenuItem"
         ></livewire:everysoft-dxScheduler-calendar>
     </div>
 </div>

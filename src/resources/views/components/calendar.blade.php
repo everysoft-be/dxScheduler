@@ -8,6 +8,7 @@
         padding-left: 3px;
     }
 </style>
+<div id="everysoft_dxScheduler_menu"></div>
 <div id="everysoft_dxScheduler_calendar"></div>
 <script>
     if (!window.everysoft)
@@ -133,6 +134,48 @@
                     const method = _getMethod(options.appointmentData.form);
                     method(options.appointmentData);
                 }
+            },
+            onCellContextMenu(e)
+            {
+                window.everysoft['currentAppointmentData'] = e.cellData;
+                $('#everysoft_dxScheduler_menu').dxContextMenu({
+                    dataSource: {!! json_encode($cellMenuItem) !!},
+                    width: 200,
+                    target: e.element,
+                    onItemClick(options)
+                    {
+                        if(options.itemData.form != null)
+                        {
+                            const method = _getMethod(options.itemData.form);
+                            method(options.cellData);
+                        }
+                        else
+                        {
+                            window.everysoft['dxScheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
+                        }
+                    }
+                });
+            },
+            onAppointmentContextMenu(e)
+            {
+                window.everysoft['currentAppointmentData'] = e.appointmentData;
+                $('#everysoft_dxScheduler_menu').dxContextMenu({
+                    dataSource: {!! json_encode($eventMenuItem) !!},
+                    width: 200,
+                    target: e.element,
+                    onItemClick(options)
+                    {
+                        if(options.itemData.form != null)
+                        {
+                            const method = _getMethod(options.itemData.form);
+                            method(options.cellData);
+                        }
+                        else
+                        {
+                            window.everysoft['dxScheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
+                        }
+                    }
+                });
             },
         }).dxScheduler('instance');
 
