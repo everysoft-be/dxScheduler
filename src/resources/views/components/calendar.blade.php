@@ -105,22 +105,26 @@
                 },
             appointmentTemplate(model)
             {
-                let startAt = new Date(model.appointmentData.startDate);
-                let endAt = new Date(model.appointmentData.endDate);
+                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
+                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
                 div = $("<div>")
+                    .attr('title', startAt + " - " + endAt)
                     .css('border-left', '1rem solid ' + model.appointmentData.category_background_color)
                     .addClass('dxscheduler-appointment-template')
-                    //.append(model.appointmentData.category_label + "<BR>")
-                    .append("<B>")
-                    .append(model.appointmentData.scheduler_name)
-                    .append(" : ")
-                    .append(model.appointmentData.text)
-                    .append("</B>")
-                    .append("<br>")
-                    .append("<small>" + startAt.getHours() + ":" + startAt.getMinutes())
-                    .append(" - ")
-                    .append(+endAt.getHours() + ":" + endAt.getMinutes() + "</small")
-                    .append("<br>")
+                    .append("<span style='font-size:.6rem'>" + model.appointmentData.scheduler_name + "</span><BR>")
+                    .append(model.appointmentData.text + "<BR>")
+                    .append(model.appointmentData.description);
+
+                return div;
+            },
+            appointmentTooltipTemplate(model)
+            {
+                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
+                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
+                div = $("<div>")
+                    .append("<B>@lang('groups.Groups'): </B>"+model.appointmentData.scheduler_name + "<BR>")
+                    .append("<B>@lang('subject.Subject'): </B>" + model.appointmentData.text + "<BR>")
+                    .append("<B>@lang('EDTs.start_hour'): </B>" + startAt + " - " + endAt + "<BR>")
                     .append(model.appointmentData.description);
 
 

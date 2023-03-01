@@ -2,16 +2,45 @@
 
 namespace everysoft\dxScheduler\app\Http\Resources;
 
+use App\Models\EDT;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class EventResource extends JsonResource
 {
     public function toArray ($request): array
     {
+        $text = $this->text;
+        $description = nl2br($this->description);
+
+        if($this->binding)
+        {
+            switch($this->binding::class)
+            {
+                case EDT::class:
+                {
+                    $edt = $this->binding;
+                    $text = $edt->group->subject->name;
+                    if(Auth::user()->current_team_id === User::StudentTeamId)
+                    {
+                        $teachers = "";
+                        foreach ($edt->group->teachers as $teacher)
+                        {
+                            $teachers .= $teacher->name;
+                        }
+                        $description = $teachers;
+                    }
+                }
+                break;
+            }
+
+        }
+
         return [
             'id' => $this->id,
-            'text' => $this->text,
-            'description' => $this->description,
+            'text' => $text,
+            'description' => $description,
             'startDate' => $this->start_date,
             'endDate' => $this->end_date,
             'allDay' => $this->all_day,

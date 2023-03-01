@@ -3,6 +3,7 @@
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
 use everysoft\dxScheduler\app\Http\Controllers\SchedulerController;
+use everysoft\dxScheduler\app\Http\Resources\SchedulerResource;
 use everysoft\dxScheduler\app\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ class Navigation extends Component
 {
     public array $allows = [];
     public array $objectsCreate = [];
+    public array $references = [];
     public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
     public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
     public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
@@ -30,23 +32,30 @@ class Navigation extends Component
     private function getMenuItems()
     {
         $array = [];
+
+        // Calendars
         $items = $this->getSchedulers()->groupBy('category');
-        foreach ($items as $items1)
+        if(count($items) > 1)   // On affiche la catégorie uniqueemnt si plusieurs calendrier
         {
-            $subItems = [];
-            foreach ($items1 as $item)
+            foreach ($items as $items1)
             {
-                $subItems[] = $item;
+                $subItems = [];
+                foreach ($items1 as $item)
+                {
+                    $subItems[] = $item;
+                }
+                $array[] =
+                    [
+                        'label' => __($item->category ?? 'My calendars'),
+                        'items' => $subItems,
+                    ];
             }
-            $array[] =
-                [
-                    'label' => $item->category ?? 'My calendars',
-                    'items' => $subItems,
-                ];
         }
+
+        // Categories
         $array [] =
             [
-                'label' => "Categories",
+                'label' => __('Categories'),
                 'items' => $this->getCategories()
             ];
         return $array;
@@ -54,6 +63,11 @@ class Navigation extends Component
 
     private function getSchedulers()
     {
+        if(count($this->references) > 0)
+        {
+            return SchedulerResource::collection(\everysoft\dxScheduler\app\Models\Scheduler::whereIn('reference', $this->references)->get());
+        }
+
         $route = Route::getRoutes()->getByName($this->schedulersRouteName);
         if(!$route) return [];
 
@@ -83,6 +97,7 @@ class Navigation extends Component
 
     public function can(string $right)
     {
+        // TODO
         return true;
         return in_array($right, $this->allows);
     }

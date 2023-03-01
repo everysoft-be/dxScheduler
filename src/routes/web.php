@@ -12,5 +12,6 @@ Route::prefix('everysoft/dxscheduler')->group(function ()
     Route::prefix('events')->group(function ()
     {
         Route::get('json', [EventController::class, 'json'])->name('everysoft.dxscheduler.events.json');
+        Route::post('update', [EventController::class, 'update'])->name('everysoft.dxscheduler.events.update');
     });
 });

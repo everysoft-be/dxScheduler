@@ -2,12 +2,13 @@
 
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use PharIo\Manifest\Application;
 
 class Scheduler extends Component
 {
     public string $ref = "1";
+    public array $references=[];
     public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
     public string $eventsRouteName = "everysoft.dxscheduler.events.json";
     public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
