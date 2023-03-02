@@ -1,0 +1,27 @@
+{
+    "name": "everysoft/dxScheduler",
+    "description": "Show and manage scheduler from devextrem dxScheduler",
+    "homepage": "https://github.com/everysoft-be/dxScheduler",
+    "keywords": ["laravel", "devextreme", "scheduler", "calendar", "events"],
+    "type": "library",
+    "authors":
+        [
+            {
+                "name": "Everysoft",
+                "email": "support@everysoft.be"
+            }
+        ],
+    "minimum-stability": "stable",
+    "require":
+    {
+        "php": "^8.1",
+        "ext-json": "*",
+        "livewire/livewire": "^2.0"
+    },
+    "license": ["GPL-3.0-only"],
+    "autoload": {
+        "psr-0": {
+            "Monolog": "src"
+        }
+    }
+}
