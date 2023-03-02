@@ -1,7 +1,7 @@
 {
-    "name": "everysoft/dxScheduler",
+    "name": "everysoft/scheduler",
     "description": "Show and manage scheduler from devextrem dxScheduler",
-    "homepage": "https://github.com/everysoft-be/dxScheduler",
+    "homepage": "https://github.com/everysoft-be/scheduler",
     "keywords": ["laravel", "devextreme", "scheduler", "calendar", "events"],
     "type": "library",
     "authors":

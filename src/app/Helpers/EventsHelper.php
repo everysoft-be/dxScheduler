@@ -1,8 +1,8 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Helpers;
+namespace everysoft\scheduler\app\Helpers;
 
-use everysoft\dxScheduler\app\Models\Event;
+use everysoft\scheduler\app\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;

@@ -1,9 +1,9 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Http\Livewire;
+namespace everysoft\scheduler\app\Http\Livewire;
 
-use everysoft\dxScheduler\app\Models\Category;
-use everysoft\dxScheduler\app\traits\DefaultParameters;
+use everysoft\scheduler\app\Models\Category;
+use everysoft\scheduler\app\traits\DefaultParameters;
 use Illuminate\Console\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,7 @@ class Calendar extends Component
         $this->initReferences();
         $this->initCategories();
 
-        return view('dxScheduler::components.calendar');
+        return view('scheduler::components.calendar');
     }
 
     public function can(string $right): bool

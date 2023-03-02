@@ -1,8 +1,8 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Http\Livewire;
+namespace everysoft\scheduler\app\Http\Livewire;
 
-use everysoft\dxScheduler\app\traits\DefaultParameters;
+use everysoft\scheduler\app\traits\DefaultParameters;
 use Livewire\Component;
 
 class Scheduler extends Component
@@ -11,6 +11,6 @@ class Scheduler extends Component
 
     public function render()
     {
-        return view('dxScheduler::components.scheduler');
+        return view('scheduler::components.scheduler');
     }
 }

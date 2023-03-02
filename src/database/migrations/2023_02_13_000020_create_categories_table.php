@@ -13,14 +13,14 @@ class CreateCategoriesTable  extends Migration
      */
     public function up ()
     {
-        Schema::create('everysoft_dxscheduler_categories', function (Blueprint $table) {
+        Schema::create('everysoft_scheduler_categories', function (Blueprint $table) {
             $table->id();
             $table->string('label');
             $table->text('description')->nullable();
             $table->string('text_color')->nullable();
             $table->string('background_color')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('scheduler_id')->nullable()->constrained('everysoft_dxscheduler_schedulers');
+            $table->foreignId('scheduler_id')->nullable()->constrained('everysoft_scheduler_schedulers');
             $table->json('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -34,6 +34,6 @@ class CreateCategoriesTable  extends Migration
      */
     public function down ()
     {
-        Schema::dropIfExists('everysoft_dxscheduler_categories');
+        Schema::dropIfExists('everysoft_scheduler_categories');
     }
 }

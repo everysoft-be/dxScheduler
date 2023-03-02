@@ -1,6 +1,6 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Models;
+namespace everysoft\scheduler\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +9,7 @@ class Event extends Model
 {
     use SoftDeletes;
 
-    protected $table = "everysoft_dxscheduler_events";
+    protected $table = "everysoft_scheduler_events";
     protected $guarded = [];
 
     public function scheduler()

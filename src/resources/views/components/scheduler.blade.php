@@ -24,9 +24,9 @@
 </style>
 <div class="dx-box-flex dx-box dx-widget dx-collection main-box">
     <div class="dx-item dx-box-item row1">
-        @livewire('everysoft-dxScheduler-navigation', $this->getParameters())
+        @livewire('everysoft-scheduler-navigation', $this->getParameters())
     </div>
     <div class="dx-item dx-box-item row4">
-        @livewire('everysoft-dxScheduler-calendar', $this->getParameters())
+        @livewire('everysoft-scheduler-calendar', $this->getParameters())
     </div>
 </div>

@@ -13,7 +13,7 @@ class CreateSchedulersTable extends Migration
      */
     public function up ()
     {
-        Schema::create('everysoft_dxscheduler_schedulers', function (Blueprint $table) {
+        Schema::create('everysoft_scheduler_schedulers', function (Blueprint $table) {
             $table->id();
             $table->string('reference')->unique();
             $table->string('label')->nullable();
@@ -34,6 +34,6 @@ class CreateSchedulersTable extends Migration
      */
     public function down ()
     {
-        Schema::dropIfExists('everysoft_dxscheduler_schedulers');
+        Schema::dropIfExists('everysoft_scheduler_schedulers');
     }
 }

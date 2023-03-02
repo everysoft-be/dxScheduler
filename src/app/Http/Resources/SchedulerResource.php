@@ -1,6 +1,6 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Http\Resources;
+namespace everysoft\scheduler\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Http\Controllers;
+namespace everysoft\scheduler\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use everysoft\dxScheduler\app\Http\Resources\SchedulerResource;
-use everysoft\dxScheduler\app\Models\Scheduler;
+use everysoft\scheduler\app\Http\Resources\SchedulerResource;
+use everysoft\scheduler\app\Models\Scheduler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
