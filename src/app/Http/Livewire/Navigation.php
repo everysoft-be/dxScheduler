@@ -1,10 +1,10 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Http\Livewire;
+namespace everysoft\scheduler\app\Http\Livewire;
 
-use everysoft\dxScheduler\app\Http\Resources\SchedulerResource;
-use everysoft\dxScheduler\app\Models\Category;
-use everysoft\dxScheduler\app\traits\DefaultParameters;
+use everysoft\scheduler\app\Http\Resources\SchedulerResource;
+use everysoft\scheduler\app\Models\Category;
+use everysoft\scheduler\app\traits\DefaultParameters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -19,7 +19,7 @@ class Navigation extends Component
 
     public function render() : Application|Factory|View
     {
-        return view('dxScheduler::components.navigation')
+        return view('scheduler::components.navigation')
             ->with('menuItems', $this->getMenuItems());
     }
 
@@ -59,7 +59,7 @@ class Navigation extends Component
     {
         if(count($this->references) > 0)
         {
-            return SchedulerResource::collection(\everysoft\dxScheduler\app\Models\Scheduler::whereIn('reference', $this->references)->get());
+            return SchedulerResource::collection(\everysoft\scheduler\app\Models\Scheduler::whereIn('reference', $this->references)->get());
         }
 
         $route = Route::getRoutes()->getByName($this->schedulersRouteName);

@@ -1,6 +1,6 @@
 <?php
 
-namespace everysoft\dxScheduler\app\traits;
+namespace everysoft\scheduler\app\traits;
 
 trait DefaultParameters
 {
@@ -8,13 +8,13 @@ trait DefaultParameters
     public array  $references                      = [];
     public array  $categories                      = [];
 
-    public string $schedulersRouteName             = "everysoft.dxscheduler.schedulers.json";
+    public string $schedulersRouteName             = "everysoft.scheduler.schedulers.json";
     public array  $schedulersRouteNameAttributes   = [];
-    public string $eventsRouteName                 = "everysoft.dxscheduler.events.json";
+    public string $eventsRouteName                 = "everysoft.scheduler.events.json";
     public array  $eventsRouteNameAttributes       = [];
-    public string $eventsUpdateRouteName           = "everysoft.dxscheduler.events.update";
+    public string $eventsUpdateRouteName           = "everysoft.scheduler.events.update";
     public array  $eventsUpdateRouteNameAttributes = [];
-    public string $eventsDeleteRouteName           = "everysoft.dxscheduler.events.delete";
+    public string $eventsDeleteRouteName           = "everysoft.scheduler.events.delete";
     public array  $eventsDeleteRouteNameAttributes = [];
 
     public array  $allows        = [];

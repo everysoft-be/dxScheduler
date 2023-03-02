@@ -1,9 +1,9 @@
 <?php
 
-namespace everysoft\dxScheduler\app\Helpers;
+namespace everysoft\scheduler\app\Helpers;
 
 use Carbon\Carbon;
-use everysoft\dxScheduler\app\Models\Scheduler;
+use everysoft\scheduler\app\Models\Scheduler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;

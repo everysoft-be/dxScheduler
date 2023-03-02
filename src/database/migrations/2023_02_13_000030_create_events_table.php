@@ -13,19 +13,19 @@ class CreateEventsTable extends Migration
      */
     public function up ()
     {
-        Schema::create('everysoft_dxscheduler_events', function (Blueprint $table) {
+        Schema::create('everysoft_scheduler_events', function (Blueprint $table) {
             $table->id();
             $table->string('text');
             $table->text('description')->nullable();
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->boolean('all_day')->default(false);
-            $table->foreignid('category_id')->nullable()->constrained('everysoft_dxscheduler_categories');
+            $table->foreignid('category_id')->nullable()->constrained('everysoft_scheduler_categories');
             $table->string('recurrence_rule')->nullable();
             $table->string('recurrence_exception')->nullable();
             $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('scheduler_id')->constrained('everysoft_dxscheduler_schedulers');
-            $table->foreignId('parent_id')->nullable()->constrained('everysoft_dxscheduler_events');
+            $table->foreignId('scheduler_id')->constrained('everysoft_scheduler_schedulers');
+            $table->foreignId('parent_id')->nullable()->constrained('everysoft_scheduler_events');
             $table->string('object_class')->nullable();
             $table->enum('status', ['UNKNOWN', 'ACCEPTED', 'REFUSED', 'WAITING']);
             $table->json('data')->nullable();
@@ -41,6 +41,6 @@ class CreateEventsTable extends Migration
      */
     public function down ()
     {
-        Schema::dropIfExists('everysoft_dxscheduler_events');
+        Schema::dropIfExists('everysoft_scheduler_events');
     }
 }
