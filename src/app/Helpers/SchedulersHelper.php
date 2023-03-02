@@ -51,6 +51,7 @@ abstract class SchedulersHelper
                 $query->whereIn('category_id', $categories);
             }
             $sch_events = $query->get();
+
             $events = $events->merge($sch_events);
         }
 
