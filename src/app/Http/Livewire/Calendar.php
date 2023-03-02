@@ -3,6 +3,7 @@
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
 use everysoft\dxScheduler\app\Models\Category;
+use everysoft\dxScheduler\app\traits\DefaultParameters;
 use Illuminate\Console\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,16 +13,7 @@ use Livewire\Component;
 
 class Calendar extends Component
 {
-    public array  $allows                = [];
-    public string $currentView           = "month";
-    public array  $references            = [];
-    public array  $categories            = [];
-    public string $schedulersRouteName   = "everysoft.dxscheduler.schedulers.json";
-    public string $eventsRouteName       = "everysoft.dxscheduler.events.json";
-    public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
-    public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
-    public array  $cellMenuItem          = [];
-    public array  $eventMenuItem         = [];
+    use DefaultParameters;
 
     public function render(): Application|Factory|View
     {
@@ -48,13 +40,18 @@ class Calendar extends Component
 
         $controller = $route->getController();
         $method = $route->getActionMethod();
-        $items = $controller->$method(new Request());
+        $parameters = "";
+        foreach($this->schedulersRouteNameAttributes as $parameter)
+        {
+            if($parameters) $parameters.= ",";
+            $parameters .= $parameter;
+        }
+        $items = $controller->$method($parameters);
         $this->references = [];
         foreach ($items as $item)
         {
             $this->references[] = $item->reference;
         }
-
     }
 
     private function initCategories()

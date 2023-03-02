@@ -24,27 +24,9 @@
 </style>
 <div class="dx-box-flex dx-box dx-widget dx-collection main-box">
     <div class="dx-item dx-box-item row1">
-        <livewire:everysoft-dxScheduler-navigation
-                :key="'everysoft-dxScheduler-navigation-'.$ref"
-                :references="$references"
-                :allows="$allows"
-                :schedulersRouteName="$schedulersRouteName"
-                :eventsUpdateRouteName="$eventsUpdateRouteName"
-                :createButton="$createButton"
-        ></livewire:everysoft-dxScheduler-navigation>
+        @livewire('everysoft-dxScheduler-navigation', $this->getParameters())
     </div>
     <div class="dx-item dx-box-item row4">
-        <livewire:everysoft-dxScheduler-calendar
-                :key="'everysoft-dxScheduler-calendar-'.$ref"
-                :references="$references"
-                :currentView="$currentView"
-                :allows="$allows"
-                :schedulersRouteName="$schedulersRouteName"
-                :eventsRouteName="$eventsRouteName"
-                :eventsUpdateRouteName="$eventsUpdateRouteName"
-                :eventsDeleteRouteName="$eventsDeleteRouteName"
-                :eventMenuItem="$eventMenuItem"
-                :cellMenuItem="$cellMenuItem"
-        ></livewire:everysoft-dxScheduler-calendar>
+        @livewire('everysoft-dxScheduler-calendar', $this->getParameters())
     </div>
 </div>

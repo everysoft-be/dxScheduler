@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use everysoft\dxScheduler\app\Models\Scheduler;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
 abstract class SchedulersHelper
 {
@@ -39,6 +40,7 @@ abstract class SchedulersHelper
         foreach ($schedulers as $scheduler)
         {
             $query = self::decodeFilter($scheduler->events(), $filter);
+
             $query->where(function($query) use($schedulers)
                 {
                     $query->WhereNotIn('parent_id', $schedulers->pluck('id'));

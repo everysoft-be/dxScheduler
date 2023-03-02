@@ -21,13 +21,13 @@ class EventResource extends JsonResource
                 case EDT::class:
                 {
                     $edt = $this->binding;
-                    $text = $edt->group->subject->name;
+                    $text = $edt->group->subject?->name;
                     if(Auth::user()->current_team_id === User::StudentTeamId)
                     {
                         $teachers = "";
                         foreach ($edt->group->teachers as $teacher)
                         {
-                            $teachers .= $teacher->name;
+                            $teachers .= $teacher?->name;
                         }
                         $description = $teachers;
                     }

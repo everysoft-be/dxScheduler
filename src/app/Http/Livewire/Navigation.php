@@ -2,9 +2,9 @@
 
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
-use everysoft\dxScheduler\app\Http\Controllers\SchedulerController;
 use everysoft\dxScheduler\app\Http\Resources\SchedulerResource;
 use everysoft\dxScheduler\app\Models\Category;
+use everysoft\dxScheduler\app\traits\DefaultParameters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Livewire\Component;
@@ -15,13 +15,7 @@ use \Illuminate\Contracts\View\View;
 
 class Navigation extends Component
 {
-    public array $allows = [];
-    public array $objectsCreate = [];
-    public array $references = [];
-    public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
-    public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
-    public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
-    public array $createButton = [];
+    use DefaultParameters;
 
     public function render() : Application|Factory|View
     {
@@ -61,7 +55,7 @@ class Navigation extends Component
         return $array;
     }
 
-    private function getSchedulers()
+    private function getSchedulers() : \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         if(count($this->references) > 0)
         {
@@ -69,11 +63,18 @@ class Navigation extends Component
         }
 
         $route = Route::getRoutes()->getByName($this->schedulersRouteName);
-        if(!$route) return [];
+        if(!$route) return SchedulerResource::collection(collect());
 
         $controller = $route->getController();
         $method = $route->getActionMethod();
-        return $controller->$method(new Request());
+        $parameters = "";
+        foreach($this->schedulersRouteNameAttributes as $parameter)
+        {
+            if($parameters) $parameters.= ",";
+            $parameters .= $parameter;
+        }
+
+        return $controller->$method($parameters);
     }
 
     private function getCategories() : array
@@ -95,10 +96,8 @@ class Navigation extends Component
         return $items;
     }
 
-    public function can(string $right)
+    public function can(string $right): bool
     {
-        // TODO
-        return true;
         return in_array($right, $this->allows);
     }
 }

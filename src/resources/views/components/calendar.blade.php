@@ -107,13 +107,13 @@
             {
                 let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
                 let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
-                div = $("<div>")
-                    .attr('title', startAt + " - " + endAt)
-                    .css('border-left', '1rem solid ' + model.appointmentData.category_background_color)
-                    .addClass('dxscheduler-appointment-template')
-                    .append("<span style='font-size:.6rem'>" + model.appointmentData.scheduler_name + "</span><BR>")
-                    .append(model.appointmentData.text + "<BR>")
-                    .append(model.appointmentData.description);
+                div = $("<div>");
+                div.attr('title', startAt + " - " + endAt);
+                div.css('border-left', '1rem solid ' + model.appointmentData.category_background_color);
+                div.addClass('dxscheduler-appointment-template');
+                if(model.appointmentData.scheduler_name)    div.append("<span style='font-size:.6rem'>" + model.appointmentData.scheduler_name + "</span><BR>");
+                if(model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
+                if(model.appointmentData.description) div.append(model.appointmentData.description);
 
                 return div;
             },
@@ -121,11 +121,11 @@
             {
                 let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
                 let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {hour: '2-digit', minute: '2-digit'});
-                div = $("<div>")
-                    .append("<B>@lang('groups.Groups'): </B>"+model.appointmentData.scheduler_name + "<BR>")
-                    .append("<B>@lang('subject.Subject'): </B>" + model.appointmentData.text + "<BR>")
-                    .append("<B>@lang('EDTs.start_hour'): </B>" + startAt + " - " + endAt + "<BR>")
-                    .append(model.appointmentData.description);
+                div = $("<div>");
+                if(model.appointmentData.scheduler_name)    div.append("<B>"+model.appointmentData.scheduler_name + "</B><BR>");
+                if(model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
+                div.append(startAt + " - " + endAt + "<BR>");
+                if(model.appointmentData.description) div.append(model.appointmentData.description);
 
 
                 return div;

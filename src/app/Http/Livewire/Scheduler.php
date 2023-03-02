@@ -2,22 +2,12 @@
 
 namespace everysoft\dxScheduler\app\Http\Livewire;
 
+use everysoft\dxScheduler\app\traits\DefaultParameters;
 use Livewire\Component;
-use PharIo\Manifest\Application;
 
 class Scheduler extends Component
 {
-    public string $ref = "1";
-    public array $references=[];
-    public string $schedulersRouteName = "everysoft.dxscheduler.schedulers.json";
-    public string $eventsRouteName = "everysoft.dxscheduler.events.json";
-    public string $eventsUpdateRouteName = "everysoft.dxscheduler.events.update";
-    public string $eventsDeleteRouteName = "everysoft.dxscheduler.events.delete";
-    public array $allows = [];
-    public string $currentView = "month";
-    public array $createButton = [];
-    public array $cellMenuItem = [];
-    public array $eventMenuItem = [];
+    use DefaultParameters;
 
     public function render()
     {
