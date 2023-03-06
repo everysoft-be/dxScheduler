@@ -148,6 +148,23 @@
             },
             onAppointmentFormOpening(options)
             {
+                const canCreate = {{ $this->can('create')?'true':'false' }};
+                const canUpdate = {{ $this->can('update')?'true':'false' }};
+
+                if(options.appointmentData.id !== null && !canUpdate)
+                {
+                    console.log('cancel update');
+                    options.cancel = true;
+                    return;
+                }
+
+                if(options.appointmentData.id === null && !canCreate)
+                {
+                    console.log('cancel create');
+                    options.cancel = true;
+                    return;
+                }
+
                 if (options.appointmentData.form)
                 {
                     options.cancel = true;
@@ -192,7 +209,7 @@
                         }
                         else
                         {
-                            window.everysoft['scheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
+                            window.everysoft['scheduler'].showAppointmentPopup(duplicateEvent(window.everysoft['currentAppointmentData'], null));
                         }
                     }
                 });
@@ -206,4 +223,13 @@
             window.everysoft['scheduler'].scrollTo(date);
         }
     });
+
+    function duplicateEvent(event, newForm)
+    {
+        current = JSON.parse(JSON.stringify(event));
+        current.id = null;
+        current.binding = null;
+        current.form = newForm;
+        return current;
+    }
 </script>

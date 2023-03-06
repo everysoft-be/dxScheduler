@@ -23,6 +23,11 @@ trait DefaultParameters
     public array  $cellMenuItem  = [];
     public array  $eventMenuItem = [];
 
+    public function can(string $right): bool
+    {
+        return in_array($right, $this->allows);
+    }
+
     public function getParameters()
     {
         $parameters = [];

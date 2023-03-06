@@ -14,8 +14,10 @@ class EventsHelper
     {
         if ($request->values)
         {
+            $values = json_decode($request->values);
+
             $parent = null;
-            if ($request->key)
+            if ($request->key && $request->key !== 'null')
             {
                 // Récupération de l'évènement principale
                 $parent = Event::findOrFail($request->key);
@@ -26,16 +28,17 @@ class EventsHelper
             }
 
             // Récupération des valeurs
-            $values = json_decode($request->values);
             $datas = [
                 'text'                 => $values->text,
                 'description'          => $values->description,
                 'start_date'           => $values->startDate,
                 'end_date'             => $values->endDate,
-                'all_day'              => $values->allDay ?? null,
+                'all_day'              => $values->allDay ?? 0,
                 'recurrence_rule'      => $values->recurrenceRule ?? null,
                 'recurrence_exception' => $values->recurrenceException ?? null,
                 'category_id'          => $values->category_id,
+                'scheduler_id'         => $values->scheduler_id,
+                'created_by'           => $values->created_by ?? Auth::id(),
             ];
 
             if ($parent !== null)
@@ -54,6 +57,10 @@ class EventsHelper
                         $child->update($datas);
                     }
                 }
+            }
+            else
+            {
+                $parent = Event::create($datas);
             }
 
             // Ajout si n'existe pas
