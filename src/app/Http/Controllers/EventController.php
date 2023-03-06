@@ -52,12 +52,13 @@ class EventController extends Controller
                     'description'          => $values->description,
                     'start_date'           => $values->startDate,
                     'end_date'             => $values->endDate,
-                    'all_day'              => $values->allDay ?? null,
+                    'all_day'              => $values->allDay ?? 0,
                     'recurrence_rule'      => $values->recurrenceRule ?? null,
                     'recurrence_exception' => $values->recurrenceException ?? null,
                     'category_id'          => $values->category_id,
+                    'scheduler_id'         => $values->scheduler_id,
+                    'created_by'           => $values->created_by ?? Auth::id(),
                 ];
-
                 if ($parent !== null)
                 {
                     $parent->update($datas);
@@ -75,8 +76,13 @@ class EventController extends Controller
                         }
                     }
                 }
+                else
+                {
+                    $parent = Event::create($datas);
+                }
 
                 // Ajout si n'existe pas
+                if(isset($values->scheduler_ids))
                 foreach ($values->scheduler_ids as $scheduler_id)
                 {
                     if ($parent->events()->where('scheduler_id', $scheduler_id)->count() === 0)
