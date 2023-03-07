@@ -18,6 +18,7 @@
 @include('scheduler::components.functions.onCellContextMenu')
 
 <script>
+    DevExpress.setTemplateEngine('underscore');
     if (!window.everysoft)
     {
         window.everysoft = [];
@@ -75,6 +76,7 @@
                     'month'
                 ],
             currentView: '{{ $currentView }}',
+            //adaptivityEnabled: true,
             shadeUntilCurrentTime: true,
             firstDayOfWeek: 1,
             showCurrentTimeIndicator: true,
@@ -125,3 +127,5 @@
         }
     });
 </script>
+
+@include('scheduler::components.forms.eventForm')

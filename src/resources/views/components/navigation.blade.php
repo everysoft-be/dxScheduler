@@ -74,7 +74,8 @@
             }
             else
             {
-                window.everysoft['scheduler'].showAppointmentPopup();
+                window.everysoft['eventFormPopup'].show();
+                //window.everysoft['scheduler'].showAppointmentPopup();
             }
         }
     });

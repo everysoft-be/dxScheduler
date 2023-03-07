@@ -1,6 +1,13 @@
 <script>
+    window.cancelAppointmentFormOpening=false;
     function onAppointmentFormOpening(options)
     {
+        if(window.cancelAppointmentFormOpening)
+        {
+            options.cancel = true;
+            window.cancelAppointmentFormOpening=false;
+        }
+
         const canCreate = {{ $this->can('create')?'true':'false' }};
         const canUpdate = {{ $this->can('update')?'true':'false' }};
 
