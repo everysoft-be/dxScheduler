@@ -51,7 +51,7 @@
 <script>
     $("#everysoft_scheduler_button_tools").dxButton({
         icon: "fa fa-cog",
-        hint: '@lang('Settings') !!! @lang('Coming soon') !!!'
+        hint: '@lang('Settings !!! Coming soon !!!')'
     });
 
     $("#everysoft_scheduler_button_create").dxDropDownButton({

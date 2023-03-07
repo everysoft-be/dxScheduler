@@ -30,7 +30,7 @@ class EventsHelper
             // Récupération des valeurs
             $datas = [
                 'text'                 => $values->text,
-                'description'          => $values->description,
+                'description'          => $values->description ?? null,
                 'start_date'           => $values->startDate,
                 'end_date'             => $values->endDate,
                 'all_day'              => $values->allDay ?? 0,
@@ -64,6 +64,7 @@ class EventsHelper
             }
 
             // Ajout si n'existe pas
+            if(isset($values->scheduler_ids))
             foreach ($values->scheduler_ids as $scheduler_id)
             {
                 if ($parent->events()->where('scheduler_id', $scheduler_id)->count() === 0)
