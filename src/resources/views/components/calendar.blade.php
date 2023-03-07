@@ -10,6 +10,13 @@
 </style>
 <div id="everysoft_scheduler_menu"></div>
 <div id="everysoft_scheduler_calendar" style="height: inherit"></div>
+
+@include('scheduler::components.functions.appointmentTemplate')
+@include('scheduler::components.functions.appointmentTooltipTemplate')
+@include('scheduler::components.functions.onAppointmentContextMenu')
+@include('scheduler::components.functions.onAppointmentFormOpening')
+@include('scheduler::components.functions.onCellContextMenu')
+
 <script>
     if (!window.everysoft)
     {
@@ -103,117 +110,11 @@
                     allowResizing: {!! $this->can('update')?'true':'false' !!},
                     allowDeleting: {!! $this->can('delete')?'true':'false' !!},
                 },
-            appointmentTemplate(model)
-            {
-                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                div = $("<div>");
-                div.attr('title', startAt + " - " + endAt);
-                div.css('border-left', '1rem solid ' + model.appointmentData.category_background_color);
-                div.addClass('scheduler-appointment-template');
-                @if(count($references) > 1)
-                if (model.appointmentData.scheduler_name) div.append("<span style='font-size:.6rem'>" + model.appointmentData.scheduler_name + "</span><BR>");
-                @endif
-                if (model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
-                if (model.appointmentData.description) div.append(model.appointmentData.description);
-
-                return div;
-            },
-            appointmentTooltipTemplate(model)
-            {
-                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                div = $("<div>");
-                @if(count($references) > 1)
-                if (model.appointmentData.scheduler_name) div.append("<B>" + model.appointmentData.scheduler_name + "</B><BR>");
-                @endif
-                if (model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
-                div.append(startAt + " - " + endAt + "<BR>");
-                if (model.appointmentData.description) div.append(model.appointmentData.description);
-
-
-                return div;
-            },
-            onAppointmentFormOpening(options)
-            {
-                const canCreate = {{ $this->can('create')?'true':'false' }};
-                const canUpdate = {{ $this->can('update')?'true':'false' }};
-
-                if(options.appointmentData.id !== null && !canUpdate)
-                {
-                    console.log('cancel update');
-                    options.cancel = true;
-                    return;
-                }
-
-                if(options.appointmentData.id === null && !canCreate)
-                {
-                    console.log('cancel create');
-                    options.cancel = true;
-                    return;
-                }
-
-                if (options.appointmentData.form)
-                {
-                    options.cancel = true;
-                    const method = _getMethod(options.appointmentData.form);
-                    method(options.appointmentData);
-                }
-            },
-            onCellContextMenu(e)
-            {
-                window.everysoft['currentAppointmentData'] = e.cellData;
-                $('#everysoft_scheduler_menu').dxContextMenu({
-                    dataSource: {!! json_encode($cellMenuItem) !!},
-                    width: 200,
-                    target: e.element,
-                    onItemClick(options)
-                    {
-                        if (options.itemData.form != null)
-                        {
-                            const method = _getMethod(options.itemData.form);
-                            method(options.cellData);
-                        }
-                        else
-                        {
-                            window.everysoft['scheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
-                        }
-                    }
-                });
-            },
-            onAppointmentContextMenu(e)
-            {
-                window.everysoft['currentAppointmentData'] = e.appointmentData;
-                $('#everysoft_scheduler_menu').dxContextMenu({
-                    dataSource: {!! json_encode($eventMenuItem) !!},
-                    width: 200,
-                    target: e.element,
-                    onItemClick(options)
-                    {
-                        if (options.itemData.form != null)
-                        {
-                            const method = _getMethod(options.itemData.form);
-                            method(options.cellData);
-                        }
-                        else
-                        {
-                            window.everysoft['scheduler'].showAppointmentPopup(duplicateEvent(window.everysoft['currentAppointmentData'], null));
-                        }
-                    }
-                });
-            },
+            appointmentTemplate: appointmentTemplate,
+            appointmentTooltipTemplate: appointmentTooltipTemplate,
+            onAppointmentFormOpening: onAppointmentFormOpening,
+            onCellContextMenu: onCellContextMenu,
+            onAppointmentContextMenu: onAppointmentContextMenu,
         }).dxScheduler('instance');
 
         // Move view to center
@@ -223,13 +124,4 @@
             window.everysoft['scheduler'].scrollTo(date);
         }
     });
-
-    function duplicateEvent(event, newForm)
-    {
-        current = JSON.parse(JSON.stringify(event));
-        current.id = null;
-        current.binding = null;
-        current.form = newForm;
-        return current;
-    }
 </script>
