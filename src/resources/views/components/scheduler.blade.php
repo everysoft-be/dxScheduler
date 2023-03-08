@@ -1,3 +1,4 @@
+<div wire:key="scheduler">
 <style>
     .main-box {
         display: flex;
@@ -29,4 +30,5 @@
     <div class="dx-item dx-box-item row4">
         @livewire('everysoft-scheduler-calendar', $this->getParameters())
     </div>
+</div>
 </div>

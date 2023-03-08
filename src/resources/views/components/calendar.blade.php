@@ -1,3 +1,4 @@
+<div wire:key="calendar">
 <style>
     .dx-scheduler-appointment-content {
         padding: 0px;
@@ -129,3 +130,4 @@
 </script>
 
 @include('scheduler::components.forms.eventForm')
+</div>
