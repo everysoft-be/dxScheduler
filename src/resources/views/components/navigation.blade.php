@@ -1,6 +1,5 @@
 <div class="everysoft-nav-vert" style="display: flex; flex-direction: column; width: 100%; height: 100%; justify-content: flex-start;
-align-items: stretch;"
-     wire:key="navigation">
+align-items: stretch;" wire:key="navigation">
     <style>
         .everysoft-nav-vert {
             display: flex;
@@ -48,7 +47,6 @@ align-items: stretch;"
         <!-- Categories listing -->
         <div id="everysoft_scheduler_categories"></div>
     </div>
-    @include('scheduler::components.forms.eventForm')
     <script>
         $("#everysoft_scheduler_button_tools").dxButton({
             icon: "fa fa-cog",
