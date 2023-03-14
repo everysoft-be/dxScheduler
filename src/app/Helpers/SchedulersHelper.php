@@ -53,6 +53,7 @@ abstract class SchedulersHelper
             $sch_events = $query->get();
 
             $events = $events->merge($sch_events);
+
         }
 
         return $events;
