@@ -30,10 +30,10 @@
     {
         return DevExpress.data.AspNet.createStore({
             key: 'id',
-            loadUrl: '{!! route($eventsRouteName) !!}',
-            insertUrl: '{!! route($eventsUpdateRouteName) !!}',
-            updateUrl: '{!! route($eventsUpdateRouteName) !!}',
-            deleteUrl: '{!! route($eventsUpdateRouteName) !!}',
+            loadUrl: '{!! route($eventsRouteName, $eventsRouteNameAttributes) !!}',
+            insertUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
+            updateUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
+            deleteUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
             loadParams:
                 {
                     references: window.everysoft['scheduler_references'],
