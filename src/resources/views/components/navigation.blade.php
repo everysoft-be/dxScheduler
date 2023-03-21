@@ -68,6 +68,7 @@ align-items: stretch;" wire:key="navigation">
             {
                 if (event.itemData.form != null)
                 {
+                    console.log(event);
                     const method = _getMethod(event.itemData.form);
                     method(null);
                 }

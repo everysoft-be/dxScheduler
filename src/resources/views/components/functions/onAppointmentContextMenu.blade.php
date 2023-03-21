@@ -1,6 +1,9 @@
 <script>
     function onAppointmentContextMenu(e)
     {
+        console.log("onAppointmentContextMenu");
+        console.log(e);
+
         window.everysoft['currentAppointmentData'] = e.appointmentData;
         $('#everysoft_scheduler_menu').dxContextMenu({
             dataSource: {!! json_encode($eventMenuItem) !!},
@@ -8,10 +11,13 @@
             target: e.element,
             onItemClick(options)
             {
+                console.log("onAppointmentContextMenu / onItemClick");
+                console.log(options);
+
                 if (options.itemData.form != null)
                 {
                     const method = _getMethod(options.itemData.form);
-                    method(options.cellData);
+                    method(window.everysoft['currentAppointmentData']);
                 }
                 else
                 {

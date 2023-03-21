@@ -2,6 +2,9 @@
     window.cancelAppointmentFormOpening=false;
     function onAppointmentFormOpening(options)
     {
+        console.log("onAppointmentFormOpening");
+        console.log(options);
+
         if(window.cancelAppointmentFormOpening)
         {
             options.cancel = true;
