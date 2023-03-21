@@ -12,11 +12,11 @@
 <div id="everysoft_scheduler_menu"></div>
 <div id="everysoft_scheduler_calendar" style="height: inherit"></div>
 
-@include('scheduler::components.functions.appointmentTemplate')
-@include('scheduler::components.functions.appointmentTooltipTemplate')
-@include('scheduler::components.functions.onAppointmentContextMenu')
-@include('scheduler::components.functions.onAppointmentFormOpening')
-@include('scheduler::components.functions.onCellContextMenu')
+    @include($appointmentTemplate)
+    @include($appointmentTooltipTemplate)
+    @include($onAppointmentContextMenu)
+    @include($onAppointmentFormOpening)
+    @include($onCellContextMenu)
 
 <script>
     DevExpress.setTemplateEngine('underscore');
