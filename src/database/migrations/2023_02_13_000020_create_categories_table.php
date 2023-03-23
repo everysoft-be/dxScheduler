@@ -17,6 +17,7 @@ class CreateCategoriesTable  extends Migration
             $table->id();
             $table->string('label');
             $table->text('description')->nullable();
+            $table->integer('order')->default(0);
             $table->string('text_color')->nullable();
             $table->string('background_color')->nullable();
             $table->foreignId('user_id')->nullable()->constrained('users');

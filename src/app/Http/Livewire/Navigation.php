@@ -79,7 +79,7 @@ class Navigation extends Component
 
     private function getCategories() : array
     {
-        $categories = Category::where('user_id', Auth::id())->orWhereNull('user_id')->orderBy('label', 'asc')->get();
+        $categories = Category::where('user_id', Auth::id())->orWhereNull('user_id')->orderBy('order', 'asc')->orderBy('label', 'asc')->get();
         $items = [];
         foreach($categories as $category)
         {
