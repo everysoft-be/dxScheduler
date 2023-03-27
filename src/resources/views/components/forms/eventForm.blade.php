@@ -275,8 +275,16 @@
                             text: 'Save',
                             onClick()
                             {
-
-                            },
+                                {{--$.ajax({--}}
+                                {{--    url: '{{ route('evaluations.store') }}',--}}
+                                {{--    method: 'post',--}}
+                                {{--    data: window.everysoft['eventForm'].option('formdata'),--}}
+                                {{--}).done(function (html)--}}
+                                {{--{--}}
+                                {{--    console.log(html);--}}
+                                {{--    window.everysoft['eventFormPopup'].hide();--}}
+                                {{--});--}}
+                            }
                         },
                 },
                 {
