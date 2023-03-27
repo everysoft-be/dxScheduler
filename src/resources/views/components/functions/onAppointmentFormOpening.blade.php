@@ -9,6 +9,7 @@
         {
             options.cancel = true;
             window.cancelAppointmentFormOpening=false;
+            return;
         }
 
         const canCreate = {{ $this->can('create')?'true':'false' }};
