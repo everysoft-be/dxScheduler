@@ -29,7 +29,7 @@ class Navigation extends Component
 
         // Calendars
         $items = $this->getSchedulers()->groupBy('category');
-        if(count($items) > 1)   // On affiche la catégorie uniqueemnt si plusieurs calendrier
+        if(count($items) >= 1)   // On affiche la catégorie uniqueemnt si plusieurs calendrier
         {
             foreach ($items as $items1)
             {
