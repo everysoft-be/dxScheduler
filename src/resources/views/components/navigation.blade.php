@@ -48,10 +48,10 @@ align-items: stretch;" wire:key="navigation">
         <div id="everysoft_scheduler_categories"></div>
     </div>
     <script>
-        $("#everysoft_scheduler_button_tools").dxButton({
-            icon: "fa fa-cog",
-            hint: '@lang('Settings !!! Coming soon !!!')'
-        });
+        {{--$("#everysoft_scheduler_button_tools").dxButton({--}}
+        {{--    icon: "fa fa-cog",--}}
+        {{--    hint: '@lang('Settings !!! Coming soon !!!')'--}}
+        {{--});--}}
 
         $("#everysoft_scheduler_button_create").dxDropDownButton({
             text: "@lang('Create')",
@@ -86,7 +86,7 @@ align-items: stretch;" wire:key="navigation">
             animationDuration: 300,
             collapsible: true,
             multiple: true,
-            selectedItems: menuItems,
+            selectedItems: (screen.width>800)?menuItems:[],
             itemTitleTemplate(data)
             {
                 return '<h1 style="font-weight: bold; font-size: 15px; margin:0;">' + data.label + '</H1>';

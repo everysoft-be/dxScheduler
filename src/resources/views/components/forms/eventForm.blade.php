@@ -2,33 +2,12 @@
     <div id="everysoft-scheduler-eventform"></div>
 </div>
 <script>
-    if(!window.everysoft) window.everysoft=[];
-    window.everysoft['periods'] = {!! json_encode(\App\Models\Period::all()); !!};
-    window.everysoft.displayPeriodStart = (value) =>
+    function editPopupEventForm()
     {
-        if (value !== null)
-        {
-            const start = new Date(value.start).toLocaleTimeString("fr-fr", {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            const label = value.label + " => " + start;
-            return label;
-        }
-    };
-    window.everysoft.displayPeriodEnd = (value) =>
-    {
-        if (value !== null)
-        {
-            const end = new Date(value.end).toLocaleTimeString("fr-fr", {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            const label = value.label + " => " + end;
-            return label;
-        }
-    };
+        window.everysoft['eventFormPopup'].show();
+    }
 
+    if(!window.everysoft) window.everysoft=[];
     window.everysoft['eventForm'] = $("#everysoft-scheduler-eventform").dxForm(
         {
             // labelMode: "floating",
@@ -75,46 +54,10 @@
                                     valueExpr: 'id',
                                 },
                         },
-                        {
-                            itemType: "group",
-                            caption: "Start",
-                            colCount: 2,
-                            items:
-                                [
-                                    {
-                                        dataField: 'firstPeriod',
-                                        label: { text: '@lang('Period')', },
-                                        editorType: 'dxSelectBox',
-                                        editorOptions:
-                                            {
-                                                dataSource: window.everysoft['periods'],
-                                                showClearButton: true,
-                                                displayExpr: window.everysoft.displayPeriodStart,
-                                                onValueChanged: (options) =>
-                                                {
-                                                    if(options.value === null) return;
 
-                                                    const startEditor = window.everysoft['eventForm'].getEditor('start_date');
-                                                    let date = startEditor.option('value');
-                                                    let period = new Date(options.value.start);
-                                                    let newdate = new Date(date.setHours(period.getHours(), period.getMinutes(), period.getSeconds()));
-                                                    startEditor.option('value', newdate);
-                                                    startEditor.repaint();
-
-                                                    const endPeriodEditor = window.everysoft['eventForm'].getEditor('lastPeriod');
-                                                    const startPeriodEditor = window.everysoft['eventForm'].getEditor('firstPeriod');
-                                                    const endPeriod = endPeriodEditor.option('value');
-                                                    const startPeriod = startPeriodEditor.option('value');
-                                                    if((endPeriod === null) || (endPeriod.id < startPeriod.id))
-                                                    {
-                                                        endPeriodEditor.option('value', startPeriod);
-                                                    }
-                                                },
-                                            },
-                                    },
                                     {
                                         dataField: 'start_date',
-                                        label: { text: '@lang('Date')', },
+                                        label: { text: '@lang('Start')', },
                                         isRequired: true,
                                         editorType: 'dxDateBox',
                                         editorOptions:
@@ -123,48 +66,12 @@
                                                 value: new Date(),
                                             },
                                     },
-                                ]
-                        },
-                        {
-                            itemType: "group",
-                            caption: "End",
-                            colCount: 3,
-                            items:
-                                [
-                                    {
-                                        dataField: 'lastPeriod',
-                                        label: { text: '@lang('Period')', },
-                                        editorType: 'dxSelectBox',
-                                        editorOptions:
-                                            {
-                                                dataSource: window.everysoft['periods'],
-                                                showClearButton: true,
-                                                displayExpr: window.everysoft.displayPeriodEnd,
-                                                onValueChanged: (options) =>
-                                                {
-                                                    if(options.value === null) return;
 
-                                                    let date = window.everysoft['eventForm'].getEditor('end_date').option('value');
-                                                    let period = new Date(options.value.end);
-                                                    let newdate = new Date(date.setHours(period.getHours(), period.getMinutes(), period.getSeconds()));
-                                                    window.everysoft['eventForm'].getEditor('end_date').option('value', newdate);
-                                                    window.everysoft['eventForm'].getEditor('end_date').repaint();
 
-                                                    const endPeriodEditor = window.everysoft['eventForm'].getEditor('lastPeriod');
-                                                    const startPeriodEditor = window.everysoft['eventForm'].getEditor('firstPeriod');
-                                                    const endPeriod = endPeriodEditor.option('value');
-                                                    const startPeriod = startPeriodEditor.option('value');
-                                                    if((startPeriod === null) || (startPeriod.id > endPeriod.id))
-                                                    {
-                                                        startPeriodEditor.option('value', endPeriod);
-                                                    }
-                                                },
-                                            },
-                                    },
                                     {
                                         dataField: 'end_date',
                                         colSpan: 2,
-                                        label: { text: '@lang('Date')', },
+                                        label: { text: '@lang('End')', },
                                         isRequired: true,
                                         editorType: 'dxDateBox',
                                         editorOptions:
@@ -173,8 +80,6 @@
                                                 value: new Date(),
                                             },
                                     },
-                                ]
-                        },
                         {
                             itemType: 'group',
                             colSpan: 2,
