@@ -37,6 +37,7 @@ class Navigation extends Component
             {
                 $subItems[] = $item;
             }
+
             $array[] =
                 [
                     'label' => __($item->category ?? 'My calendars'),
