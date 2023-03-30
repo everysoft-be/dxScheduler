@@ -77,7 +77,7 @@
                     'month'
                 ],
             currentView: '{{ $currentView }}',
-            //adaptivityEnabled: true,
+            // adaptivityEnabled: true,
             shadeUntilCurrentTime: true,
             firstDayOfWeek: 1,
             showCurrentTimeIndicator: true,

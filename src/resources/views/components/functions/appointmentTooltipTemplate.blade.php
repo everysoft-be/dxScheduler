@@ -44,28 +44,10 @@
             .append("<i class='dx-icon dx-icon-event'></i>")
             .click( e=>{
                 window.cancelAppointmentFormOpening=true;
-                alert("Event from: " + model.appointmentData.id);
-            });
-        btnEDT = $("<div>")
-            .addClass('btn btn-outline-primary border-0')
-            .attr('title','Create EDT from this')
-            .append("<i class='dx-icon fa fa-layer-group'></i>")
-            .click( e=>{
-                window.cancelAppointmentFormOpening=true;
-                alert("EDT from: " + model.appointmentData.id);
-            });
-        btnEval = $("<div>")
-            .addClass('btn btn-outline-primary border-0')
-            .attr('title','Create Eval from this')
-            .append("<i class='dx-icon fa fa-clipboard'></i>")
-            .click( e=>{
-                window.cancelAppointmentFormOpening=true;
-                alert("Eval from: " + model.appointmentData.id);
+                window.everysoft['eventFormPopup'].show();
             });
 
         divBottom.append(btnEvent);
-        divBottom.append(btnEDT);
-        divBottom.append(btnEval);
 
         divRow.append(divBottom);
 

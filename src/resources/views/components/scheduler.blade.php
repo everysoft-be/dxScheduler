@@ -22,6 +22,14 @@
             min-width: 0px;
             flex: 4 1 0px;
         }
+
+        @media (max-width: 800px)
+        {
+            .main-box
+            {
+                flex-direction: column;
+            }
+        }
     </style>
     <div class="dx-box-flex dx-box dx-widget dx-collection main-box">
         <div class="dx-item dx-box-item row1">
