@@ -112,6 +112,8 @@
                     allowDragging: {!! $this->can('update')?'true':'false' !!},
                     allowResizing: {!! $this->can('update')?'true':'false' !!},
                     allowDeleting: {!! $this->can('delete')?'true':'false' !!},
+                    allowDragging: false,
+                    allowResizing: false,
                 },
             appointmentTemplate: appointmentTemplate,
             appointmentTooltipTemplate: appointmentTooltipTemplate,
