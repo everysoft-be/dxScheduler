@@ -68,7 +68,6 @@ align-items: stretch;" wire:key="navigation">
             {
                 if (event.itemData.form != null)
                 {
-                    console.log(event);
                     const method = _getMethod(event.itemData.form);
                     method(null);
                 }
@@ -89,7 +88,6 @@ align-items: stretch;" wire:key="navigation">
             selectedItems: (screen.width>800)?menuItems:[],
             itemTitleTemplate(data)
             {
-                console.log(data);
                 return '<h1 style="font-weight: bold; font-size: 15px; margin:0;">' + data.label + '</H1>';
             },
             itemTemplate(data)

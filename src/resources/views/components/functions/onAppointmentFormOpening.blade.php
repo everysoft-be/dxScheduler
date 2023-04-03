@@ -2,8 +2,7 @@
     window.cancelAppointmentFormOpening=false;
     function onAppointmentFormOpening(options)
     {
-        console.log("onAppointmentFormOpening");
-        console.log(options);
+        window.everysoft['currentAppointmentData'] = options.appointmentData;
 
         if(window.cancelAppointmentFormOpening)
         {
@@ -17,14 +16,12 @@
 
         if (options.appointmentData.id !== null && !canUpdate)
         {
-            console.log('cancel update');
             options.cancel = true;
             return;
         }
 
         if (options.appointmentData.id === null && !canCreate)
         {
-            console.log('cancel create');
             options.cancel = true;
             return;
         }
@@ -33,7 +30,7 @@
         {
             options.cancel = true;
             const method = _getMethod(options.appointmentData.form);
-            method(options.appointmentData);
+            method(false);
         }
     }
 </script>

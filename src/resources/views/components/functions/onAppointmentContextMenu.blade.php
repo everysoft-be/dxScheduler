@@ -1,9 +1,6 @@
 <script>
     function onAppointmentContextMenu(e)
     {
-        console.log("onAppointmentContextMenu");
-        console.log(e);
-
         window.everysoft['currentAppointmentData'] = e.appointmentData;
         $('#everysoft_scheduler_menu').dxContextMenu({
             dataSource: {!! json_encode($eventMenuItem) !!},
