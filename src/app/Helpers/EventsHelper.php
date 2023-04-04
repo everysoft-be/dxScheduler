@@ -2,6 +2,7 @@
 
 namespace everysoft\scheduler\app\Helpers;
 
+use Carbon\Carbon;
 use everysoft\scheduler\app\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -122,8 +123,10 @@ class EventsHelper
 
         $data['text']  = $request->text;
         $data['description'] = $request->description;
-        $data['start_date'] = $request->startDate;
-        $data['end_date'] = $request->endDate;
+        if($request->has('start_date')) $data['start_date'] = self::toDate($request->start_date);
+        else                                $data['start_date'] = self::toDate($request->startDate);
+        if($request->has('end_date'))  $data['end_date'] = self::toDate($request->end_date);
+        else                                $data['end_date'] = self::toDate($request->endDate);
         $data['all_day'] = $request->allDay??false;
         $data['category_id'] = $request->category_id;
         $data['recurrence_rule'] = $request->recurrence_rule;
@@ -133,6 +136,26 @@ class EventsHelper
         $data['parent_id'] = $request->parent_id;
 
         return $data;
+    }
+
+    private static function toDate($date)
+    {
+        if(!is_string($date))
+        {
+            if ($date::class === Carbon::class)
+            {
+                return $date;
+            }
+        }
+
+        $str = (string)$date;
+        $pos = strpos($str, '(');
+        if($pos !== false)
+        {
+            $str = substr($str, 0, $pos);
+        }
+
+        return new Carbon($str);
     }
 
     /** Delete */
