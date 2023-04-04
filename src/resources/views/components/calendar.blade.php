@@ -1,3 +1,4 @@
+<div wire:key="calendar">
 <style>
     .dx-scheduler-appointment-content {
         padding: 0px;
@@ -10,7 +11,15 @@
 </style>
 <div id="everysoft_scheduler_menu"></div>
 <div id="everysoft_scheduler_calendar" style="height: inherit"></div>
+
+    @include($appointmentTemplate)
+    @include($appointmentTooltipTemplate)
+    @include($onAppointmentContextMenu)
+    @include($onAppointmentFormOpening)
+    @include($onCellContextMenu)
+
 <script>
+    DevExpress.setTemplateEngine('underscore');
     if (!window.everysoft)
     {
         window.everysoft = [];
@@ -22,10 +31,10 @@
     {
         return DevExpress.data.AspNet.createStore({
             key: 'id',
-            loadUrl: '{!! route($eventsRouteName) !!}',
-            insertUrl: '{!! route($eventsUpdateRouteName) !!}',
-            updateUrl: '{!! route($eventsUpdateRouteName) !!}',
-            deleteUrl: '{!! route($eventsUpdateRouteName) !!}',
+            loadUrl: '{!! route($eventsRouteName, $eventsRouteNameAttributes) !!}',
+            insertUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
+            updateUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
+            deleteUrl: '{!! route($eventsUpdateRouteName, $eventsUpdateRouteNameAttributes) !!}',
             loadParams:
                 {
                     references: window.everysoft['scheduler_references'],
@@ -68,6 +77,7 @@
                     'month'
                 ],
             currentView: '{{ $currentView }}',
+            // adaptivityEnabled: true,
             shadeUntilCurrentTime: true,
             firstDayOfWeek: 1,
             showCurrentTimeIndicator: true,
@@ -102,101 +112,14 @@
                     allowDragging: {!! $this->can('update')?'true':'false' !!},
                     allowResizing: {!! $this->can('update')?'true':'false' !!},
                     allowDeleting: {!! $this->can('delete')?'true':'false' !!},
+                    allowDragging: false,
+                    allowResizing: false,
                 },
-            appointmentTemplate(model)
-            {
-                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                div = $("<div>");
-                div.attr('title', startAt + " - " + endAt);
-                div.css('border-left', '1rem solid ' + model.appointmentData.category_background_color);
-                div.addClass('scheduler-appointment-template');
-                @if(count($references) > 1)
-                if (model.appointmentData.scheduler_name) div.append("<span style='font-size:.6rem'>" + model.appointmentData.scheduler_name + "</span><BR>");
-                @endif
-                if (model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
-                if (model.appointmentData.description) div.append(model.appointmentData.description);
-
-                return div;
-            },
-            appointmentTooltipTemplate(model)
-            {
-                let startAt = new Date(model.appointmentData.startDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                let endAt = new Date(model.appointmentData.endDate).toLocaleTimeString("fr-fr", {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                div = $("<div>");
-                @if(count($references) > 1)
-                if (model.appointmentData.scheduler_name) div.append("<B>" + model.appointmentData.scheduler_name + "</B><BR>");
-                @endif
-                if (model.appointmentData.text) div.append(model.appointmentData.text + "<BR>");
-                div.append(startAt + " - " + endAt + "<BR>");
-                if (model.appointmentData.description) div.append(model.appointmentData.description);
-
-
-                return div;
-            },
-            onAppointmentFormOpening(options)
-            {
-                if (options.appointmentData.form)
-                {
-                    options.cancel = true;
-                    const method = _getMethod(options.appointmentData.form);
-                    method(options.appointmentData);
-                }
-            },
-            onCellContextMenu(e)
-            {
-                window.everysoft['currentAppointmentData'] = e.cellData;
-                $('#everysoft_scheduler_menu').dxContextMenu({
-                    dataSource: {!! json_encode($cellMenuItem) !!},
-                    width: 200,
-                    target: e.element,
-                    onItemClick(options)
-                    {
-                        if (options.itemData.form != null)
-                        {
-                            const method = _getMethod(options.itemData.form);
-                            method(options.cellData);
-                        }
-                        else
-                        {
-                            window.everysoft['scheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
-                        }
-                    }
-                });
-            },
-            onAppointmentContextMenu(e)
-            {
-                window.everysoft['currentAppointmentData'] = e.appointmentData;
-                $('#everysoft_scheduler_menu').dxContextMenu({
-                    dataSource: {!! json_encode($eventMenuItem) !!},
-                    width: 200,
-                    target: e.element,
-                    onItemClick(options)
-                    {
-                        if (options.itemData.form != null)
-                        {
-                            const method = _getMethod(options.itemData.form);
-                            method(options.cellData);
-                        }
-                        else
-                        {
-                            window.everysoft['scheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
-                        }
-                    }
-                });
-            },
+            appointmentTemplate: appointmentTemplate,
+            appointmentTooltipTemplate: appointmentTooltipTemplate,
+            onAppointmentFormOpening: onAppointmentFormOpening,
+            onCellContextMenu: onCellContextMenu,
+            onAppointmentContextMenu: onAppointmentContextMenu,
         }).dxScheduler('instance');
 
         // Move view to center
@@ -207,3 +130,6 @@
         }
     });
 </script>
+
+@include('scheduler::components.forms.eventForm')
+</div>

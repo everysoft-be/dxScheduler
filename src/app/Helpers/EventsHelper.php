@@ -14,8 +14,10 @@ class EventsHelper
     {
         if ($request->values)
         {
+            $values = json_decode($request->values);
+
             $parent = null;
-            if ($request->key)
+            if ($request->key && $request->key !== 'null')
             {
                 // Récupération de l'évènement principale
                 $parent = Event::findOrFail($request->key);
@@ -26,16 +28,17 @@ class EventsHelper
             }
 
             // Récupération des valeurs
-            $values = json_decode($request->values);
             $datas = [
                 'text'                 => $values->text,
-                'description'          => $values->description,
+                'description'          => $values->description ?? null,
                 'start_date'           => $values->startDate,
                 'end_date'             => $values->endDate,
-                'all_day'              => $values->allDay ?? null,
+                'all_day'              => $values->allDay ?? 0,
                 'recurrence_rule'      => $values->recurrenceRule ?? null,
                 'recurrence_exception' => $values->recurrenceException ?? null,
                 'category_id'          => $values->category_id,
+                'scheduler_id'         => $values->scheduler_id,
+                'created_by'           => $values->created_by ?? Auth::id(),
             ];
 
             if ($parent !== null)
@@ -55,8 +58,13 @@ class EventsHelper
                     }
                 }
             }
+            else
+            {
+                $parent = Event::create($datas);
+            }
 
             // Ajout si n'existe pas
+            if(isset($values->scheduler_ids))
             foreach ($values->scheduler_ids as $scheduler_id)
             {
                 if ($parent->events()->where('scheduler_id', $scheduler_id)->count() === 0)
@@ -68,6 +76,63 @@ class EventsHelper
                 }
             }
         }
+        else
+        {
+            if($request->method() === 'POST') // Update
+            {
+                $event = Event::findOrFail($request->id);
+                $scheduler_id = $event->scheduler_id;   // Nécessaire car on ne peux pas prédire l'ordre des scheduler_ids
+                $data = self::convertRequestToEventData($request);
+
+                foreach($request->scheduler_ids as $id)
+                {
+                    $data['scheduler_id'] = $id;
+
+                    if($scheduler_id === (int)$id)
+                    {
+                        $event = Event::findOrFail($request->id);
+                        $event->update($data);
+                    }
+                    else
+                    {
+                        Event::create($data);
+                    }
+                }
+            }
+            else    // Create
+            {
+                self::createEventFromRequest($request);
+            }
+        }
+    }
+
+    public static function createEventFromRequest(Request $request)
+    {
+        foreach($request->scheduler_ids as $id)
+        {
+            $request->scheduler_id = $id;
+            $data = self::convertRequestToEventData($request);
+            Event::create($data);
+        }
+    }
+
+    private static function convertRequestToEventData(Request $request)
+    {
+        $data = [];
+
+        $data['text']  = $request->text;
+        $data['description'] = $request->description;
+        $data['start_date'] = $request->startDate;
+        $data['end_date'] = $request->endDate;
+        $data['all_day'] = $request->allDay??false;
+        $data['category_id'] = $request->category_id;
+        $data['recurrence_rule'] = $request->recurrence_rule;
+        $data['recurrence_exception'] = $request->recurrence_exception;
+        $data['created_by'] = Auth::id();
+        $data['scheduler_id'] = $request->scheduler_id;
+        $data['parent_id'] = $request->parent_id;
+
+        return $data;
     }
 
     /** Delete */

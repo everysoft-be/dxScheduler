@@ -13,5 +13,6 @@ Route::prefix('everysoft/scheduler')->group(function ()
     {
         Route::get('json', [EventController::class, 'json'])->name('everysoft.scheduler.events.json');
         Route::post('update', [EventController::class, 'update'])->name('everysoft.scheduler.events.update');
+        Route::put('update', [EventController::class, 'update']);
     });
 });
