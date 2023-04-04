@@ -44,17 +44,25 @@ class EventController extends Controller
         }
     }
 
-    public function events_delete(Request $request)
+    public function delete(Request $request)
     {
         try
         {
-            $event = Event::findOrFail($request->key);
-            Event::where('parent_id', $event->id)->delete();
-            if ($event->parent_id)
+            if($request->has('key'))
             {
-                Event::where('parent_id', $event->parent_id)->delete();
+                $event = Event::findOrFail($request->key);
+                Event::where('parent_id', $event->id)->delete();
+                if ($event->parent_id)
+                {
+                    Event::where('parent_id', $event->parent_id)->delete();
+                }
+                $event->delete();
             }
-            $event->delete();
+            else
+            {
+                $event = Event::findOrFail($request->id);
+                $event->delete();
+            }
             return new Response("Success", 200);
         }
         catch (\Exception $ex)
