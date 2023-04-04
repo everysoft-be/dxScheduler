@@ -53,15 +53,21 @@ abstract class SchedulersHelper
             $sch_events = $query->get();
 
             $events = $events->merge($sch_events);
+
         }
 
         return $events;
     }
 
-    private static function decodeFilter($query, string|array $filters)
+    private static function decodeFilter($query, string|array|null $filters)
     {
         try
         {
+            if($filters === null || empty($filters))
+            {
+                return $query;
+            }
+
             if (!is_array($filters))
             {
                 $explodes = explode(',"or",', $filters);

@@ -3,6 +3,7 @@
 namespace everysoft\scheduler;
 
 use Carbon\Laravel\ServiceProvider;
+use everysoft\scheduler\app\Http\Livewire\Admin;
 use everysoft\scheduler\app\Http\Livewire\Calendar;
 use everysoft\scheduler\app\Http\Livewire\Navigation;
 use everysoft\scheduler\app\Http\Livewire\Scheduler;
@@ -24,6 +25,7 @@ class schedulerServiceProvider extends ServiceProvider
                 Livewire::component('everysoft-scheduler', Scheduler::class);
                 Livewire::component('everysoft-scheduler-calendar', Calendar::class);
                 Livewire::component('everysoft-scheduler-navigation', Navigation::class);
+                Livewire::component('everysoft-scheduler-admin', Admin::class);
             }
         });
     }

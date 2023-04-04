@@ -23,11 +23,6 @@ class Calendar extends Component
         return view('scheduler::components.calendar');
     }
 
-    public function can(string $right): bool
-    {
-        return in_array($right, $this->allows);
-    }
-
     private function initReferences()
     {
         if (count($this->references) > 0) { return; }

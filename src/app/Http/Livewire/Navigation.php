@@ -29,21 +29,26 @@ class Navigation extends Component
 
         // Calendars
         $items = $this->getSchedulers()->groupBy('category');
-        if(count($items) > 1)   // On affiche la catégorie uniqueemnt si plusieurs calendrier
+
+        foreach ($items as $items1)
         {
-            foreach ($items as $items1)
+            $subItems = [];
+            foreach ($items1 as $item)
             {
-                $subItems = [];
-                foreach ($items1 as $item)
-                {
-                    $subItems[] = $item;
-                }
-                $array[] =
-                    [
-                        'label' => __($item->category ?? 'My calendars'),
-                        'items' => $subItems,
-                    ];
+                $subItems[] = $item;
             }
+
+            $array[] =
+                [
+                    'label' => __($item->category ?? 'My calendars'),
+                    'items' => $subItems,
+                ];
+        }
+
+        // On supprime l'affichage des calendriers uniquement si un seul calendrier
+        if((count($array) === 1)&&(count($array[0]['items'])===1))
+        {
+            $array = [];
         }
 
         // Categories
@@ -79,7 +84,7 @@ class Navigation extends Component
 
     private function getCategories() : array
     {
-        $categories = Category::where('user_id', Auth::id())->orWhereNull('user_id')->orderBy('label', 'asc')->get();
+        $categories = Category::where('user_id', Auth::id())->orWhereNull('user_id')->orderBy('order', 'asc')->orderBy('label', 'asc')->get();
         $items = [];
         foreach($categories as $category)
         {
