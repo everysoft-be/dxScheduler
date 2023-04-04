@@ -1,7 +1,7 @@
 <script>
     function onAppointmentContextMenu(e)
     {
-        window.everysoft['currentAppointmentData'] = e.appointmentData;
+        window.everysoft['currentAppointmentData'] = JSON.parse(JSON.stringify(e.appointmentData));
         $('#everysoft_scheduler_menu').dxContextMenu({
             dataSource: {!! json_encode($eventMenuItem) !!},
             width: 200,
@@ -14,22 +14,13 @@
                 if (options.itemData.form != null)
                 {
                     const method = _getMethod(options.itemData.form);
-                    method(window.everysoft['currentAppointmentData']);
+                    method();
                 }
                 else
                 {
-                    window.everysoft['scheduler'].showAppointmentPopup(duplicateEvent(window.everysoft['currentAppointmentData'], null));
+                    window.everysoft['scheduler'].showAppointmentPopup();
                 }
             }
         });
-    }
-
-    function duplicateEvent(event, newForm)
-    {
-        current = JSON.parse(JSON.stringify(event));
-        current.id = null;
-        current.binding = null;
-        current.form = newForm;
-        return current;
     }
 </script>

@@ -2,7 +2,7 @@
     window.cancelAppointmentFormOpening=false;
     function onAppointmentFormOpening(options)
     {
-        window.everysoft['currentAppointmentData'] = options.appointmentData;
+        window.everysoft['currentAppointmentData'] = JSON.parse(JSON.stringify(options.appointmentData));
 
         if(window.cancelAppointmentFormOpening)
         {

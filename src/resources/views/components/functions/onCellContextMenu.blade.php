@@ -15,7 +15,7 @@
                 }
                 else
                 {
-                    window.everysoft['scheduler'].showAppointmentPopup(window.everysoft['currentAppointmentData']);
+                    window.everysoft['scheduler'].showAppointmentPopup(true);
                 }
             }
         });
