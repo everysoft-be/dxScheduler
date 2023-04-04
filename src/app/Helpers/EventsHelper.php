@@ -76,6 +76,63 @@ class EventsHelper
                 }
             }
         }
+        else
+        {
+            if($request->method() === 'POST') // Update
+            {
+                $event = Event::findOrFail($request->id);
+                $scheduler_id = $event->scheduler_id;   // Nécessaire car on ne peux pas prédire l'ordre des scheduler_ids
+                $data = self::convertRequestToEventData($request);
+
+                foreach($request->scheduler_ids as $id)
+                {
+                    $data['scheduler_id'] = $id;
+
+                    if($scheduler_id === (int)$id)
+                    {
+                        $event = Event::findOrFail($request->id);
+                        $event->update($data);
+                    }
+                    else
+                    {
+                        Event::create($data);
+                    }
+                }
+            }
+            else    // Create
+            {
+                self::createEventFromRequest($request);
+            }
+        }
+    }
+
+    public static function createEventFromRequest(Request $request)
+    {
+        foreach($request->scheduler_ids as $id)
+        {
+            $request->scheduler_id = $id;
+            $data = self::convertRequestToEventData($request);
+            Event::create($data);
+        }
+    }
+
+    private static function convertRequestToEventData(Request $request)
+    {
+        $data = [];
+
+        $data['text']  = $request->text;
+        $data['description'] = $request->description;
+        $data['start_date'] = $request->startDate;
+        $data['end_date'] = $request->endDate;
+        $data['all_day'] = $request->allDay??false;
+        $data['category_id'] = $request->category_id;
+        $data['recurrence_rule'] = $request->recurrence_rule;
+        $data['recurrence_exception'] = $request->recurrence_exception;
+        $data['created_by'] = Auth::id();
+        $data['scheduler_id'] = $request->scheduler_id;
+        $data['parent_id'] = $request->parent_id;
+
+        return $data;
     }
 
     /** Delete */
