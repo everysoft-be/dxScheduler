@@ -92,6 +92,7 @@ class Navigation extends Component
                 [
                     'id' => $category->id,
                     'label' => $category->label,
+                    'reference' => $category->reference??$category->id,
                     'description' => $category->description,
                     'text_color' => $category->text_color,
                     'background_color' => $category->background_color,
