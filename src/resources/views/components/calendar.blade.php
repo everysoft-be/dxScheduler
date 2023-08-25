@@ -27,6 +27,18 @@
     window.everysoft['scheduler_references'] = {!! json_encode($references) !!};
     window.everysoft['scheduler_categories'] = {!! json_encode($categories) !!};
 
+    window.everysoft['scheduler_references'] = jQuery.grep(window.everysoft['scheduler_references'], function (value)
+    {
+        let  ls = localStorage.getItem("{{ Route::currentRouteName() }}_"+value);
+        return( ls === null || ls === 'true');
+    });
+
+    window.everysoft['scheduler_categories'] = jQuery.grep(window.everysoft['scheduler_categories'], function (value)
+    {
+        let  ls = localStorage.getItem("{{ Route::currentRouteName() }}_"+value);
+        return( ls === null || ls === 'true');
+    });
+
     function createSchedulerStore()
     {
         return DevExpress.data.AspNet.createStore({

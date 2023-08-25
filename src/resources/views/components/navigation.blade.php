@@ -99,8 +99,12 @@ align-items: stretch;" wire:key="navigation">
                 let div = $('<div>');
                 data.items.forEach(function (item)
                 {
+                    let checked = true;
+                    let  ls = localStorage.getItem("{{ Route::currentRouteName() }}_"+item.reference);
+                    if(ls) checked = (ls === 'true');
+
                     let check = $('<div>').dxCheckBox({
-                        value: true,
+                        value: checked,
                         hint: item.description,
                         text: item.label,
                         onContentReady(options)
@@ -110,8 +114,8 @@ align-items: stretch;" wire:key="navigation">
                         },
                         onValueChanged(options)
                         {
-                            const reference = item.reference;
-                            if (!reference)
+                            localStorage.setItem("{{ Route::currentRouteName() }}_" + item.reference, options.value);
+                            if (item.reference === item.id)
                             {
                                 if (options.value)
                                 {
@@ -125,17 +129,19 @@ align-items: stretch;" wire:key="navigation">
                                     });
                                 }
                             }
-
-                            if (options.value)
-                            {
-                                window.everysoft['scheduler_references'].push(reference);
-                            }
                             else
                             {
-                                window.everysoft['scheduler_references'] = jQuery.grep(window.everysoft['scheduler_references'], function (value)
+                                if (options.value)
                                 {
-                                    return value != reference;
-                                });
+                                    window.everysoft['scheduler_references'].push(item.reference);
+                                }
+                                else
+                                {
+                                    window.everysoft['scheduler_references'] = jQuery.grep(window.everysoft['scheduler_references'], function (value)
+                                    {
+                                        return value != item.reference;
+                                    });
+                                }
                             }
                             window.everysoft['scheduler'].option('dataSource', createSchedulerStore());
                         }
