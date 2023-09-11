@@ -9,8 +9,15 @@ class Event extends Model
 {
     use SoftDeletes;
 
-    protected $table = "everysoft_scheduler_events";
-    protected $dates = ['start_date', 'end_date', 'created_at', 'updated_at', 'deleted_at'];
+    protected $table   = "everysoft_scheduler_events";
+    protected $casts   =
+        [
+            'start_date' => 'datetime',
+            'end_date' => 'datetime',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
     protected $guarded = [];
 
     public function scheduler()
@@ -32,7 +39,7 @@ class Event extends Model
     {
         $events = $this->events()->select('scheduler_id')->get();
         $ids = [];
-        foreach($events as $event)
+        foreach ($events as $event)
         {
             $ids[] = $event->scheduler_id;
         }
