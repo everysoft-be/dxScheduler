@@ -127,8 +127,6 @@ class EventsHelper
         else                                $data['start_date'] = self::toDate($request->startDate);
         if($request->has('end_date'))  $data['end_date'] = self::toDate($request->end_date);
         else                                $data['end_date'] = self::toDate($request->endDate);
-        if($request->has('start_period')) $data['start_date']->setTimeFrom($request->start_period['start']);
-        if($request->has('end_period')) $data['end_date']->setTimeFrom($request->end_period['end']);
         $data['all_day'] = $request->allDay??false;
         $data['category_id'] = $request->category_id;
         $data['recurrence_rule'] = $request->recurrence_rule;
